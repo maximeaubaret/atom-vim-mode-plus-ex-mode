@@ -30,14 +30,20 @@ wqall = ->
     q()
 
 split = ({editor, editorElement}) ->
-  dispatch(editorElement, 'pane:split-down-and-copy-active-item')
+  atom.workspace.getActivePane().splitDown(copyActiveItem: true)
+  scrollToCursorPosition()
 
 vsplit = ({editor, editorElement}) ->
-  dispatch(editorElement, 'pane:split-right-and-copy-active-item')
+  atom.workspace.getActivePane().splitRight(copyActiveItem: true)
+  scrollToCursorPosition()
 
 # Configuration switch
 # -------------------------
 # Util
+scrollToCursorPosition = ->
+  editor = atom.workspace.getActiveTextEditor()
+  if editor then editor.scrollToCursorPosition()
+
 toggleConfig = (param) ->
   value = atom.config.get(param)
   atom.config.set(param, not value)
